@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Name Generator</title>
+    <style>
+        /* Add some style to the page */
+        body {
+            background-color: #fafafa;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin: 20px 0;
+        }
+
+        #name {
+            font-size: 3em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        button {
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #46a049;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Name Generator</h1>
+    <p id="name">Click the button to generate a name</p>
+    <button onclick="generateName()">Generate Name</button>
+    <button onclick="copyFirstName()">Copy First</button>
+    <button onclick="copyLastName()">Copy Last</button>
+    <button onclick="copyFullName()">Copy Full</button>
+    <script>
+        let firstName = "";
+        let lastName = "";
+        let fullName = "";
+
+        // Call the randomuser.me API and display the name
+        function generateName() {
+            fetch("https://randomuser.me/api/?inc=name")
+                .then(response => response.json())
+                .then(data => {
+                    firstName = data.results[0].name.first;
+                    lastName = data.results[0].name.last;
+                    fullName = firstName + " " + lastName;
+                    document.getElementById("name").textContent = fullName;
+                });
+        }
+
+        // Copy the first name to the clipboard
+        function copyFirstName() {
+            navigator.clipboard
+                .writeText(firstName).then(() => {
+                    let button = document.querySelectorAll("button")[1];
+                    button.textContent = "Copied";
+                    button.style.opacity = 0.5;
+                    setTimeout(() => {
+                        button.textContent = "Copy First";
+                        button.style.opacity = 1;
+                    }, 500);
+                });
+        }
+
+        // Copy the last name to the clipboard
+        function copyLastName() {
+            navigator.clipboard.writeText(lastName).then(() => {
+                let button = document.querySelectorAll("button")[2];
+                button.textContent = "Copied";
+                button.style.opacity = 0.5;
+                setTimeout(() => {
+                    button.textContent = "Copy Last";
+                    button.style.opacity = 1;
+                }, 500);
+            });
+        }
+
+        // Copy the full name to the clipboard
+        function copyFullName() {
+            navigator.clipboard.writeText(fullName).then(() => {
+                let button = document.querySelectorAll("button")[3];
+                button.textContent = "Copied";
+                button.style.opacity = 0.5;
+                setTimeout(() => {
+                    button.textContent = "Copy Full";
+                    button.style.opacity = 1;
+                }, 500);
+            });
+        }
+
+        window.onload = generateName();
+    </script>
+</body>
+
+</html>
