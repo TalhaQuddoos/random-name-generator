@@ -118,7 +118,7 @@
         // Copy the full name to the clipboard
         function copy() {
             navigator.clipboard.writeText(phoneNumber).then(() => {
-                let button = document.querySelectorAll("button")[0];
+                let button = document.querySelectorAll("button")[1];
                 button.textContent = "Copied";
                 button.style.opacity = 0.5;
                 setTimeout(() => {
