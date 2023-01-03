@@ -52,10 +52,12 @@
     <button onclick="copy()">Copy</button>
     <script>
         var phoneNumbers = [];
+        var phoneNumber = 0;
         // Call the randomuser.me API and display the name
 
         function generate() {
             let num = phoneNumbers[Math.floor(Math.random() * phoneNumbers.length)];
+            phoneNumber = num;
             // remove from array
             phoneNumbers = phoneNumbers.filter(item => item !== num);
 
