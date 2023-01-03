@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phone Number Generator</title>
+    <style>
+        /* Add some style to the page */
+        body {
+            background-color: #fafafa;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin: 20px 0;
+        }
+
+        #phone {
+            font-size: 3em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        button {
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #46a049;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Phone Number Generator</h1>
+    <p id="phone">Click the button to generate a number</p>
+    <button onclick="generate()">Generate</button>
+    <button onclick="copy()">Copy</button>
+    <script>
+        var phoneNumbers = [];
+        // Call the randomuser.me API and display the name
+
+        function generate() {
+            let num = phoneNumbers[Math.floor(Math.random() * phoneNumbers.length)];
+            // remove from array
+            phoneNumbers = phoneNumbers.filter(item => item !== num);
+
+            document.querySelector("#phone").textContent = num;
+
+            if (phoneNumbers.length == 0) {
+                fetchNums();
+            }
+        }
+
+        function fetchNums() {
+            var apiKey = 'a3acef8977064241bfafac7a6b38bc2b';
+            // randommer.io phone number pakistan
+
+            fetch("https://randommer.io/api/Phone/Generate?CountryCode=PK&Quantity=20", {
+                headers: {
+                    'X-Api-Key': apiKey
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    for (let i = 0; i < data.length; i++) {
+                        num = data[i].replace("+92", "0").replace(/\s/g, "");
+                        phoneNumbers.push(num);
+                    }
+                });
+
+
+        }
+
+        // Copy the first name to the clipboard
+        function copyFirstName() {
+            navigator.clipboard
+                .writeText(firstName).then(() => {
+                    let button = document.querySelectorAll("button")[1];
+                    button.textContent = "Copied";
+                    button.style.opacity = 0.5;
+                    setTimeout(() => {
+                        button.textContent = "Copy First";
+                        button.style.opacity = 1;
+                    }, 500);
+                });
+        }
+
+        // Copy the last name to the clipboard
+        function copyLastName() {
+            navigator.clipboard.writeText(lastName).then(() => {
+                let button = document.querySelectorAll("button")[2];
+                button.textContent = "Copied";
+                button.style.opacity = 0.5;
+                setTimeout(() => {
+                    button.textContent = "Copy Last";
+                    button.style.opacity = 1;
+                }, 500);
+            });
+        }
+
+        // Copy the full name to the clipboard
+        function copy() {
+            navigator.clipboard.writeText(phoneNumber).then(() => {
+                let button = document.querySelectorAll("button")[0];
+                button.textContent = "Copied";
+                button.style.opacity = 0.5;
+                setTimeout(() => {
+                    button.textContent = "Copy";
+                    button.style.opacity = 1;
+                }, 500);
+            });
+        }
+
+        window.onload = function () {
+            fetchNums();
+        }
+    </script>
+</body>
+
+</html>
